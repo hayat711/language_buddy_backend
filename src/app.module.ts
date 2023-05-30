@@ -9,6 +9,8 @@ import { RoomModule } from './modules/room/room.module';
 import { ConversationModule } from './modules/conversation/conversation.module';
 import {RedisModule, RedisModuleOptions} from "@liaoliaots/nestjs-redis";
 import {WsEmitterClientOptions, WsEmitterModule} from "./modules/chat/ws-emitter.module";
+import { LanguageModule } from './modules/language/language/language.module';
+import { UserLanguageModule } from './modules/userlanguage/userlanguage/userlanguage.module';
 
 
 @Module({
@@ -18,6 +20,8 @@ import {WsEmitterClientOptions, WsEmitterModule} from "./modules/chat/ws-emitter
     MessageModule,
     RoomModule,
     ConversationModule,
+    LanguageModule,
+    UserLanguageModule,
     // RedisModule.forRootAsync({
     //   imports: [ConfigModule],
     //   inject: [ConfigService],

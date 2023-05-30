@@ -7,6 +7,7 @@ import {AccountStatus} from "../../../common/enums/status.enum";
 import {Invitation} from "../../room/entities/invitation.entity";
 import {Message} from "../../message/entities/message.entity";
 import * as argon from 'argon2';
+import {UserLanguage} from "../../userlanguage/userlanguage/entities/userlanguage.entity";
 
 @Entity()
 export class User extends AbstractEntity<User>{
@@ -74,6 +75,24 @@ export class User extends AbstractEntity<User>{
     })
     public image: string
 
+    @Column({
+        nullable: true}
+    )
+    age: number;
+
+    @Column()
+    birthdate: Date;
+
+    @Column({
+        nullable: true
+    })
+    nationality: String;
+
+    @Column({ nullable: true})
+    location: String;
+
+    @Column('simple-array')
+    public interests: string[];
 
     @Column({
         type: "enum",
@@ -100,6 +119,11 @@ export class User extends AbstractEntity<User>{
     @OneToMany(() => Message,
         message => message.author)
     public messages: Message[];
+
+    @OneToMany(() => UserLanguage,  userLanguage => userLanguage.user, {
+        eager: true,
+    })
+    public languages: UserLanguage[];
 
     @BeforeInsert()
     async hashPassword() {
