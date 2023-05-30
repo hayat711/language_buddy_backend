@@ -1,0 +1,76 @@
+#version: "3.8"
+#
+#services:
+#  redis-main:
+#    container_name: determined_bartik
+#    image: redis
+#    ports:
+#      - 6379:6379
+#    command:
+#      - redis-server
+#      - --appendonly yes
+#    volumes:
+#      - redis-volume:/data/redis
+#    networks:
+#      - redis-network
+#      - main-network
+#    restart: unless-stopped
+#
+#  redis-commander:
+#    container_name: redis-commander-nest
+#    image: rediscommander/redis-commander:latest
+#    environment:
+#      - REDIS_HOST=redis-main:6379
+#      - HTTP_USER=root
+#      - HTTP_PASSWORD=assad
+#    ports:
+#      - 8081:8081
+#    depends_on:
+#      - redis-main
+#    networks:
+#      - redis-network
+#    restart: unless-stopped
+#
+#volumes:
+#  redis-volume:
+#
+#networks:
+#  redis-network:
+#    driver: bridge
+#  main-network:
+#    driver: bridge
+
+version: "3.8"
+
+services:
+  redis-main:
+    image: redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-volume:/data/redis
+    networks:
+      - redis-network
+    restart: unless-stopped
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOST=redis-main
+      - HTTP_USER=root
+      - HTTP_PASSWORD=assad
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis-main
+    networks:
+      - redis-network
+    restart: unless-stopped
+
+volumes:
+  redis-volume:
+
+networks:
+  redis-network:
+    driver: bridge
