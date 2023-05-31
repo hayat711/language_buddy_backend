@@ -2,8 +2,8 @@ import {Controller, Get, Post, Body, Patch, Param, Delete, UseGuards} from '@nes
 import { UserLanguageService } from './userlanguage.service';
 import { CreateUserlanguageDto } from './dto/create-userlanguage.dto';
 import { UpdateUserlanguageDto } from './dto/update-userlanguage.dto';
-import {CurrentUser} from "../../../common/decorators";
-import {JwtAuthGuard} from "../../../common/guards/jwt.auth.guard";
+import {CurrentUser} from "../../common/decorators";
+import {JwtAuthGuard} from "../../common/guards/jwt.auth.guard";
 
 @Controller('user_language')
 export class UserLanguageController {

@@ -10,6 +10,7 @@ export interface WsEmitterClientOptions extends EmitterOptions {
     config: {
         host: string;
         port: number;
+        password: string;
     }
 }
 
@@ -33,7 +34,8 @@ export function createEmitterInstance(): Provider {
         useFactory: async (options: WsEmitterClientOptions) => {
             return await new Emitter(new Redis({
                 host: options.config.host,
-                port: options.config.port
+                port: options.config.port,
+                password: options.config.password,
             }))
         },
 

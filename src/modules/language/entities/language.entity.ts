@@ -1,6 +1,6 @@
+import { AbstractEntity } from "src/common/entities/abstract.entitiy";
+import { UserLanguage } from "src/modules/userlanguage/entities/userlanguage.entity";
 import {Column, Entity, OneToMany} from "typeorm";
-import {AbstractEntity} from "../../../../common/entities/abstract.entitiy";
-import {UserLanguage} from "../../../userlanguage/userlanguage/entities/userlanguage.entity";
 
 
 @Entity()

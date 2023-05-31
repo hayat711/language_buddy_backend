@@ -15,7 +15,7 @@ async function bootstrap() {
 
   app.enableCors({
     credentials: true,
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:8080'],
     optionsSuccessStatus: 200,
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -28,10 +28,10 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
 
-  // const redisIoAdapter = new RedisIoAdapter(app);
-  // await redisIoAdapter.connectToRedis();
+  const redisIoAdapter = new RedisIoAdapter(app);
+  await redisIoAdapter.connectToRedis();
 
-  // app.useWebSocketAdapter(redisIoAdapter);
+  app.useWebSocketAdapter(redisIoAdapter);
 
   app.setGlobalPrefix('/api');
   app.useGlobalPipes( new ValidationPipe());

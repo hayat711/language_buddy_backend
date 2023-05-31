@@ -7,7 +7,7 @@ import {AccountStatus} from "../../../common/enums/status.enum";
 import {Invitation} from "../../room/entities/invitation.entity";
 import {Message} from "../../message/entities/message.entity";
 import * as argon from 'argon2';
-import {UserLanguage} from "../../userlanguage/userlanguage/entities/userlanguage.entity";
+import { UserLanguage } from "src/modules/userlanguage/entities/userlanguage.entity";
 
 @Entity()
 export class User extends AbstractEntity<User>{

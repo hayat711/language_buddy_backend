@@ -20,13 +20,16 @@ import {JwtService} from "@nestjs/jwt";
 import {ConfigService} from "@nestjs/config";
 import RequestWithUser, {AuthRequest} from "./dto/req-with-user.dto";
 import * as process from "process";
+import { RedisService } from '@liaoliaots/nestjs-redis';
 
 
 @Injectable()
 export class AuthService {
     constructor(private readonly userService: UserService,
                 private readonly jwtService: JwtService,
-                private readonly configService: ConfigService) {
+                private readonly configService: ConfigService,
+                private readonly redisService: RedisService,
+                ) {
     }
 
 

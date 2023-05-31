@@ -9,8 +9,8 @@ import { RoomModule } from './modules/room/room.module';
 import { ConversationModule } from './modules/conversation/conversation.module';
 import {RedisModule, RedisModuleOptions} from "@liaoliaots/nestjs-redis";
 import {WsEmitterClientOptions, WsEmitterModule} from "./modules/chat/ws-emitter.module";
-import { LanguageModule } from './modules/language/language/language.module';
-import { UserLanguageModule } from './modules/userlanguage/userlanguage/userlanguage.module';
+import { LanguageModule } from './modules/language/language.module';
+import { UserLanguageModule } from './modules/userlanguage/userlanguage.module';
 
 
 @Module({
@@ -22,31 +22,32 @@ import { UserLanguageModule } from './modules/userlanguage/userlanguage/userlang
     ConversationModule,
     LanguageModule,
     UserLanguageModule,
-    // RedisModule.forRootAsync({
-    //   imports: [ConfigModule],
-    //   inject: [ConfigService],
-    //   useFactory: async (configService: ConfigService): Promise<RedisModuleOptions> => {
-    //     return {
-    //       config: {
-    //         host: configService.get('REDIS_HOST') || 'redis-main',
-    //         port: configService.get('REDIS_PORT') || 6379,
-    //         // password: configService.get('REDIS_PASSWORD'),
-    //       }
-    //     }
-    //   }
-    // }),
-    // WsEmitterModule.registerAsync({
-    //   imports: [ConfigModule],
-    //   inject: [ConfigService],
-    //   useFactory: async (configService: ConfigService) : Promise<WsEmitterClientOptions> => {
-    //     return {
-    //       config: {
-    //         host: configService.get('REDIS_HOST') || 'redis-main',
-    //         port: configService.get('REDIS_PORT') || 6379,
-    //       }
-    //     }
-    //   }
-    // }),
+    RedisModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService): Promise<RedisModuleOptions> => {
+        return {
+          config: {
+            host: configService.get('REDIS_HOST'),
+            port: configService.get('REDIS_PORT') ,
+            password: configService.get('REDIS_PASSWORD'),
+          }
+        }
+      }
+    }),
+    WsEmitterModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) : Promise<WsEmitterClientOptions> => {
+        return {
+          config: {
+            host: configService.get('REDIS_HOST'),
+            port: configService.get('REDIS_PORT'),
+            password: configService.get('REDIS_PASSWORD'),
+          }
+        }
+      }
+    }),
 
   ],
   controllers: [],

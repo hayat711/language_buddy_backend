@@ -1,8 +1,8 @@
 import {Column, Entity, ManyToOne} from "typeorm";
-import {AbstractEntity} from "../../../../common/entities/abstract.entitiy";
-import {User} from "../../../user/entities/user.entity";
-import {Language} from "../../../language/language/entities/language.entity";
-import {ProficiencyEnum} from "../../../../common/enums/profeciency.enum";
+import {AbstractEntity} from "../../../common/entities/abstract.entitiy";
+import {User} from "../../user/entities/user.entity";
+import {Language} from "../../language//entities/language.entity";
+import {ProficiencyEnum} from "../../../common/enums/profeciency.enum";
 
 
 @Entity()
