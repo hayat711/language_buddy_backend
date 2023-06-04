@@ -1,9 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { CreateConversationDto } from './dto/create-conversation.dto';
-import { UpdateConversationDto } from './dto/update-conversation.dto';
+import {Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Conversation} from "./entities/conversation.entity";
-import {Repository} from "typeorm";
+import {Brackets, Repository} from "typeorm";
 import {User} from "../user/entities/user.entity";
 import {PostgresErrorCode} from "../../common/enums/postgres-error.enum";
 import {UniqueViolation} from "../../common/exceptions";
@@ -12,6 +10,7 @@ import {UniqueViolation} from "../../common/exceptions";
 export class ConversationService {
   constructor(@InjectRepository(Conversation) private readonly conversationRepository: Repository<Conversation>) {
   }
+
   public async createConversation(creator: User, recipient: User) {
     try {
         const conversation = new Conversation({
@@ -30,13 +29,13 @@ export class ConversationService {
     }
   }
 
-  public async findAll() {
+  public async getConversations() {
     return await this.conversationRepository.find({
       loadRelationIds: true,
     });
   }
 
-  public async findOne(id: string) {
+  public async getConversation(id: string) {
     return await this.conversationRepository.findOne({
       where: { id }
     });
@@ -58,18 +57,49 @@ export class ConversationService {
             'recipient.displayName',
             'recipient.image'
         ])
-        .orderBy('conversation.updated_at', 'DESC')
+        .orderBy('conversation.updated_at', 'ASC')
         .getMany();
+    console.log('user conversations ', query);
       return query;
   }
 
 
-
-  update(id: number, updateConversationDto: UpdateConversationDto) {
-    return `This action updates a #${id} conversation`;
+  public async findIfExists(user1: any, user2: any) {
+      try {
+          const existingConversation = await this.conversationRepository
+              .createQueryBuilder('conversation')
+              .where(
+                  new Brackets((qb) => {
+                      qb.where('creator.displayName = :user1', { user1})
+                          .andWhere('recipient.displayName = :user2', { user2})
+                  })
+              )
+              .orWhere(
+                  new Brackets((qb) => {
+                      qb
+                          .where('creator.displayName = :user2', { user2})
+                          .andWhere('recipient.displayName = :user1', {user1})
+                  })
+              )
+              .leftJoinAndSelect('conversation.creator', 'creator')
+              .leftJoinAndSelect('conversation.recipient', 'recipient')
+              .select([
+                  'conversation',
+                  'creator.id',
+                  'creator.displayName',
+                  'creator.image',
+                  'recipient.displayName',
+                  'recipient.image'
+              ])
+              .getOne()
+          if (!existingConversation) {
+              return null;
+          }
+          return existingConversation;
+      } catch (err) {
+          throw err;
+      }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} conversation`;
-  }
+
 }
