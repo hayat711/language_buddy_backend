@@ -18,17 +18,17 @@ export class ConversationController {
     return this.conversationService.createConversation(data, user);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get()
-  findAll() {
-    return this.conversationService.findAll();
-  }
+  // @UseGuards(JwtAuthGuard)
+  // @Get()
+  // findAll() {
+  //   return this.conversationService.findAll();
+  // }
 
-  @UseGuards(JwtAuthGuard, VerifiedGuard)
-  @Get(':id')
-  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.conversationService.findOne(id);
-  }
+  // @UseGuards(JwtAuthGuard, VerifiedGuard)
+  // @Get(':id')
+  // findOne(@Param('id', new ParseUUIDPipe()) id: string) {
+  //   return this.conversationService.findOne(id);
+  // }
 
   @UseGuards(JwtAuthGuard, VerifiedGuard)
   @Get('/my/conversations')

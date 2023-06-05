@@ -22,7 +22,7 @@ export class MessageService {
       if (type === 'room') {
         chat = await this.roomService.getRoom(id, { relationIds: false});
       }else if (type === 'conversation') {
-        chat = await this.conversationService.findOne(id);
+        chat = await this.conversationService.getConversation(id);
       }
 
       if (user) {
@@ -116,7 +116,7 @@ export class MessageService {
   }
 
   async findMessagesForConversation(conversationId: string) : Promise<any> {
-    const conversation = await this.conversationService.findOne(conversationId);
+    const conversation = await this.conversationService.getConversation(conversationId);
     const query = await this.messageRepository
         .createQueryBuilder('message')
         .leftJoin('message.conversation', 'conversation')
