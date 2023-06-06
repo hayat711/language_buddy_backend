@@ -80,7 +80,9 @@ export class User extends AbstractEntity<User>{
     )
     age: number;
 
-    @Column()
+    @Column({
+        nullable: true
+    })
     birthdate: Date;
 
     @Column({
@@ -91,7 +93,9 @@ export class User extends AbstractEntity<User>{
     @Column({ nullable: true})
     location: String;
 
-    @Column('simple-array')
+    @Column('simple-array', {
+        nullable: true,
+    })
     public interests: string[];
 
     @Column({

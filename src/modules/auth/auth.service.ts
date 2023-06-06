@@ -39,8 +39,8 @@ export class AuthService {
                 provider: Providers.Local,
                 ...registrationData
             });
+            console.log('the user saved --> ', user);
             const [accessToken, refreshToken] = await this.generateToken(user);
-
             await this.setToken(req, { accessToken, refreshToken});
 
             return {
@@ -57,7 +57,8 @@ export class AuthService {
                     throw new UniqueViolation('nickName')
                 }
             }
-            throw new InternalServerErrorException()
+            console.log('error --> ', err.message);
+            throw new InternalServerErrorException(err.message);
         }
     }
 
