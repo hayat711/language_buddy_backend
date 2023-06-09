@@ -35,6 +35,6 @@ async function bootstrap() {
 
   app.setGlobalPrefix('/api');
   app.useGlobalPipes( new ValidationPipe());
-  await app.listen(8001);
+  await app.listen(configService.get('PORT') || 3000);
 }
 bootstrap();
